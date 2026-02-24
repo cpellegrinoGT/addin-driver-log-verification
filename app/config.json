@@ -1,0 +1,16 @@
+{
+  "name": "Driver Log Verification",
+  "supportEmail": "support@example.com",
+  "version": "1.0",
+  "items": [
+    {
+      "url": "https://cpellegrinoGT.github.io/addin-driver-log-verification/dlv.html",
+      "path": "ActivityLink/",
+      "menuName": {
+        "en": "Driver Log Verification"
+      },
+      "svgIcon": "https://cpellegrinoGT.github.io/addin-driver-log-verification/images/icon.svg"
+    }
+  ],
+  "files": {}
+}
