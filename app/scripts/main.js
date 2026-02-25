@@ -79,6 +79,16 @@ geotab.addin.driverLogVerification = function () {
     return n.toFixed(1) + "%";
   }
 
+  function buildHosLogsUrl(driverId, startDate, endDate) {
+    // Derive base URL from current page (e.g. https://my.geotab.com/database)
+    var path = window.location.pathname.replace(/\/+$/, "");
+    var base = window.location.origin + path;
+    return base + "#hosLogs," +
+      "dateRange:(endDate:'" + endDate + "',startDate:'" + startDate + "')," +
+      "driver:" + driverId + "," +
+      "includeExemptions:!f,includeIntermediateLogs:!f,includeModificationOption:!t";
+  }
+
   function getDateRange() {
     var now = new Date();
     var preset = document.querySelector(".dlv-preset.active");
@@ -455,10 +465,12 @@ geotab.addin.driverLogVerification = function () {
   function renderFleetTable() {
     var rows = dlvData.fleetRows.slice();
     sortRows(rows, sortState.fleet);
+    var dateRange = getDateRange();
 
     renderTableBody(els.fleetBody, rows, function (r) {
       var pctClass = r.verifiedPct >= 100 ? "dlv-pct-full" : "dlv-pct-partial";
-      return '<td>' + escapeHtml(r.driverName) + '</td>' +
+      var hosUrl = buildHosLogsUrl(r.driverId, dateRange.from, dateRange.to);
+      return '<td><a href="' + hosUrl + '" class="dlv-driver-link">' + escapeHtml(r.driverName) + '</a></td>' +
         '<td>' + r.total + '</td>' +
         '<td>' + r.verified + '</td>' +
         '<td>' + r.unverified + '</td>' +
@@ -491,7 +503,11 @@ geotab.addin.driverLogVerification = function () {
 
     renderTableBody(els.logsBody, rows, function (r) {
       var badgeClass = r.isVerified ? "dlv-badge dlv-badge-verified" : "dlv-badge dlv-badge-unverified";
-      return '<td>' + escapeHtml(r.driverName) + '</td>' +
+      var logDate = r.dateTime ? new Date(r.dateTime) : new Date();
+      var dayStart = new Date(logDate.getFullYear(), logDate.getMonth(), logDate.getDate(), 0, 0, 0);
+      var dayEnd = new Date(logDate.getFullYear(), logDate.getMonth(), logDate.getDate(), 23, 59, 59);
+      var hosUrl = buildHosLogsUrl(r.driverId, dayStart.toISOString(), dayEnd.toISOString());
+      return '<td><a href="' + hosUrl + '" class="dlv-driver-link">' + escapeHtml(r.driverName) + '</a></td>' +
         '<td>' + formatDate(r.dateTime) + '</td>' +
         '<td>' + escapeHtml(r.status) + '</td>' +
         '<td><span class="' + badgeClass + '">' + r.verifiedLabel + '</span></td>' +

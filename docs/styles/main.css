@@ -331,6 +331,16 @@
 
 /* Verification badges */
 
+#dlv-root .dlv-driver-link {
+  color: #2980b9;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+#dlv-root .dlv-driver-link:hover {
+  text-decoration: underline;
+}
+
 #dlv-root .dlv-badge {
   display: inline-block;
   padding: 2px 8px;
