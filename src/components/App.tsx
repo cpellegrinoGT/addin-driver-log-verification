@@ -5,6 +5,7 @@ import {
   useCallback,
   useRef,
   useMemo,
+  useEffect,
 } from "react";
 import { UserFormatProvider } from "@geotab/zenith";
 import type { GeotabApi, GeotabState, FleetRow, LogRow, DutyStatusLog, Device } from "../types";
@@ -50,6 +51,8 @@ const App = forwardRef<AppHandle, AppProps>(function App({ api: initialApi, stat
   const [selectedDriver, setSelectedDriver] = useState("all");
 
   const firstFocus = useRef(true);
+  const focusReceived = useRef(false);
+  const autoLoadDone = useRef(false);
 
   const getDateRange = useCallback((): { from: string; to: string } => {
     const now = new Date();
@@ -136,21 +139,33 @@ const App = forwardRef<AppHandle, AppProps>(function App({ api: initialApi, stat
     }
   }, [api, getDateRange, getFilteredDrivers, fetchLogs, drivers, devices]);
 
+  // Auto-load on first focus once foundation data is ready.
+  // This mirrors the old vanilla flow where initialize waited for
+  // foundation data before calling callback(), so focus always had drivers.
+  useEffect(() => {
+    if (!foundationLoading && focusReceived.current && !autoLoadDone.current && drivers.length > 0) {
+      autoLoadDone.current = true;
+      loadData();
+    }
+  }, [foundationLoading, drivers, loadData]);
+
   useImperativeHandle(ref, () => ({
     onFocus(freshApi: GeotabApi) {
       setApi(freshApi);
       refreshDrivers(freshApi);
+      focusReceived.current = true;
 
-      if (firstFocus.current) {
+      // If foundation data already loaded, trigger auto-load now
+      if (firstFocus.current && !foundationLoading && drivers.length > 0) {
         firstFocus.current = false;
-        // Delay to allow state to settle after refreshDrivers
-        setTimeout(() => loadData(), 100);
+        autoLoadDone.current = true;
+        loadData();
       }
     },
     onBlur() {
       abort();
     },
-  }), [refreshDrivers, loadData, abort]);
+  }), [refreshDrivers, loadData, abort, foundationLoading, drivers]);
 
   if (foundationLoading) {
     return (
