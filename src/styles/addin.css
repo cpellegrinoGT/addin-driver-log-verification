@@ -1,0 +1,172 @@
+/* Driver Log Verification — layout shell and residual styles */
+
+#dlv-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: var(--zen-fontFamily, "Roboto", system-ui, -apple-system, sans-serif);
+  font-size: 14px;
+  color: var(--zen-color-text, #333);
+  overflow: hidden;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────────── */
+
+.dlv-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--zen-color-border, #e0e0e0);
+  background: var(--zen-color-bg-surface, #fff);
+}
+
+.dlv-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dlv-control-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--zen-color-text-secondary, #666);
+}
+
+/* Preset button group */
+.dlv-presets {
+  display: flex;
+}
+
+.dlv-preset {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: 1px solid var(--zen-color-border, #ccc);
+  background: var(--zen-color-bg-surface, #fff);
+  color: var(--zen-color-text, #333);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dlv-preset:first-child {
+  border-radius: 4px 0 0 4px;
+}
+
+.dlv-preset:last-child {
+  border-radius: 0 4px 4px 0;
+}
+
+.dlv-preset + .dlv-preset {
+  border-left: none;
+}
+
+.dlv-preset:hover {
+  background: var(--zen-color-bg-hover, #f0f0f0);
+}
+
+.dlv-preset.active {
+  background: var(--zen-color-primary, #2D7AE3);
+  color: #fff;
+  border-color: var(--zen-color-primary, #2D7AE3);
+}
+
+/* Selects */
+.dlv-select,
+.dlv-toolbar select,
+.dlv-toolbar input[type="date"],
+.dlv-panel-toolbar select {
+  padding: 6px 10px;
+  font-size: 13px;
+  border: 1px solid var(--zen-color-border, #ccc);
+  border-radius: 4px;
+  background: var(--zen-color-bg-surface, #fff);
+  color: var(--zen-color-text, #333);
+  min-width: 140px;
+}
+
+.dlv-driver-count {
+  font-size: 13px;
+  color: var(--zen-color-text-secondary, #666);
+  padding: 6px 0;
+}
+
+/* ── Content ─────────────────────────────────────────────────────── */
+
+.dlv-content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  padding: 0 16px 16px;
+}
+
+/* Panel toolbars (above tables) */
+.dlv-panel-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  flex-wrap: wrap;
+}
+
+.dlv-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dlv-filter-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--zen-color-text-secondary, #666);
+}
+
+/* ── Driver links ────────────────────────────────────────────────── */
+
+.dlv-driver-link {
+  color: var(--zen-color-primary, #2D7AE3);
+  text-decoration: none;
+}
+
+.dlv-driver-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Loading Overlay ─────────────────────────────────────────────── */
+
+.dlv-loading-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 20;
+}
+
+.dlv-loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.dlv-loading-text {
+  font-size: 14px;
+  color: var(--zen-color-text-secondary, #666);
+}
+
+.dlv-progress-wrap {
+  width: 240px;
+}
+
+/* ── Empty State ─────────────────────────────────────────────────── */
+
+.dlv-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  font-size: 15px;
+  color: var(--zen-color-text-secondary, #999);
+}
