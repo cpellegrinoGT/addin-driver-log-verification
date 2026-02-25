@@ -3,9 +3,9 @@ import type { GeotabApi, Driver, DutyStatusLog } from "../types";
 import { apiMultiCall, delay } from "../lib/geotabApi";
 import { VERIFIABLE_STATUSES } from "../lib/statusNames";
 
-const CHUNK_DAYS = 7;
-const BATCH_DELAY_MS = 300;
-const DRIVER_BATCH_SIZE = 25;
+const CHUNK_DAYS = 14;
+const BATCH_DELAY_MS = 100;
+const DRIVER_BATCH_SIZE = 50;
 
 interface FetchState {
   loading: boolean;
