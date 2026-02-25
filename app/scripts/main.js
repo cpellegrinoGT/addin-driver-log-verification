@@ -25,6 +25,12 @@ geotab.addin.driverLogVerification = function () {
     "WT": "Wait Time"
   };
 
+  // Only include verifiable duty status log types (core RODS + certify)
+  var VERIFIABLE_STATUSES = {
+    "D": true, "ON": true, "OFF": true, "SB": true,
+    "PC": true, "YM": true, "WT": true, "Certify": true
+  };
+
   // ── State ──────────────────────────────────────────────────────────────
   var api;
   var allDrivers = [];
@@ -309,6 +315,15 @@ geotab.addin.driverLogVerification = function () {
                     userSearch: { id: driver.id },
                     fromDate: chunk.from,
                     toDate: chunk.to
+                  },
+                  resultsLimit: 50000,
+                  propertySelector: {
+                    fields: [
+                      "id", "driver", "coDriver", "device",
+                      "status", "dutyStatus", "dateTime",
+                      "verifyDateTime", "elapsedDuration",
+                      "annotations", "annotation"
+                    ]
                   }
                 }];
               });
@@ -319,6 +334,8 @@ geotab.addin.driverLogVerification = function () {
                     // Tag each log with the driver id for easy lookup
                     var driverId = batch[idx].id;
                     logs.forEach(function (log) {
+                      var logStatus = log.status || log.dutyStatus || "";
+                      if (!VERIFIABLE_STATUSES[logStatus]) return;
                       if (!log.driver) log.driver = { id: driverId };
                       allLogs.push(log);
                     });
