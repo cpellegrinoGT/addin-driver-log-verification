@@ -201,11 +201,11 @@ const App = forwardRef<AppHandle, AppProps>(function App({ api: initialApi, stat
 
         <WarningBanner message={warning} />
 
-        <div className="dlv-content">
-          {fetchLoading && (
-            <LoadingOverlay visible text={progressText} progress={progress} />
-          )}
+        {fetchLoading && (
+          <LoadingOverlay visible text={progressText} progress={progress} />
+        )}
 
+        <div className="dlv-content">
           {showEmpty && !fetchLoading && (
             <EmptyState visible message={emptyMessage} />
           )}

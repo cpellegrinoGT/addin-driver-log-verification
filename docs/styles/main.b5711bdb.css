@@ -15338,6 +15338,7 @@ button.zen-summary__clickable {
   font-size: 14px;
   color: var(--zen-color-text, #333);
   overflow: hidden;
+  position: relative;
 }
 
 /* ── Toolbar ─────────────────────────────────────────────────────── */
@@ -15470,24 +15471,29 @@ button.zen-summary__clickable {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.85);
-  z-index: 20;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 1000;
 }
 
 .dlv-loading-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  padding: 32px;
+  border-radius: 8px;
+  background: var(--zen-color-bg-surface, #fff);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 }
 
 .dlv-loading-text {
-  font-size: 14px;
-  color: var(--zen-color-text-secondary, #666);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--zen-color-text, #333);
 }
 
 .dlv-progress-wrap {
-  width: 240px;
+  width: 280px;
 }
 
 /* ── Empty State ─────────────────────────────────────────────────── */
